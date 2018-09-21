@@ -34,17 +34,17 @@ dependencies {
 def buildProps = new Properties()
 file("${project.projectDir}/gradle/build.properties").withInputStream { buildProps.load(it) }
 
-task buildhosts(description: 'Build all hosts configured in build.properties file')
+task printHosts(description: 'Print all hosts configured in build.properties file')
 
 def hosts = buildProps['hosts']
 hosts.split(';').each { host ->
     def (hostIP, hostName) = host.split(':')
-    def taskName = "buildhost_${hostName}"
+    def taskName = "printHost_${hostName}"
     def hostTask = tasks.create(name: taskName, type: PrintHostTask) {
         hName = hostName
         ip = hostIP
     }
 
-    buildhosts.dependsOn hostTask
+    printHosts.dependsOn hostTask
 }
 
